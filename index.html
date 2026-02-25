@@ -103,7 +103,7 @@ async function generateLetter() {
 
   document.getElementById("output").innerText = "Generating your DilSe letter... ❤️";
 
-  const response = await fetch("/.netlify/functions/generate", {
+  const response = await fetch("./.netlify/functions/generate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

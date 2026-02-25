@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>DilSe Letter ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#e91e63">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -76,7 +81,7 @@
 
 <div class="container">
   <h1>DilSe Letter ❤️</h1>
-  <p>Live Test11111</p>
+  <p>PWA Test</p>
 
   <input type="text" id="name" placeholder="Your partner's name">
   <input type="text" id="mood" placeholder="Mood (Romantic, Cute, Emotional)">
@@ -113,7 +118,6 @@ async function generateLetter() {
     });
 
     const data = await response.json();
-    console.log("Response:", data);
 
     if (data.letter) {
       document.getElementById("output").innerText = data.letter;
@@ -126,6 +130,26 @@ async function generateLetter() {
     console.error(err);
   }
 }
+
+function copyLetter() {
+  const text = document.getElementById("output").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Letter copied to clipboard!");
+}
+
+function shareWhatsApp() {
+  const text = document.getElementById("output").innerText;
+  const url = "https://wa.me/?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
+}
+
+/* Service Worker Registration */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/service-worker.js");
+  });
+}
+
 </script>
 
 </body>

@@ -1,3 +1,4 @@
+
 const OpenAI = require("openai");
 
 exports.handler = async function(event) {

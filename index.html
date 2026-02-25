@@ -97,39 +97,34 @@
 <script>
 
 async function generateLetter() {
-  const name = document.getElementById("name").value;
-  const mood = document.getElementById("mood").value;
-  const memory = document.getElementById("memory").value;
+  try {
+    const name = document.getElementById("name").value;
+    const mood = document.getElementById("mood").value;
+    const memory = document.getElementById("memory").value;
 
-  document.getElementById("output").innerText = "Generating your DilSe letter... ❤️";
+    document.getElementById("output").innerText = "Generating your DilSe letter... ❤️";
 
-  const response = await fetch("./.netlify/functions/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ name, mood, memory })
-  });
+    const response = await fetch("/.netlify/functions/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, mood, memory })
+    });
 
-  const data = await response.json();
+    const data = await response.json();
+    console.log("Response:", data);
 
-  if (data.letter) {
-    document.getElementById("output").innerText = data.letter;
-  } else {
-    document.getElementById("output").innerText = "Error generating letter.";
+    if (data.letter) {
+      document.getElementById("output").innerText = data.letter;
+    } else {
+      document.getElementById("output").innerText = "Error: " + JSON.stringify(data);
+    }
+
+  } catch (err) {
+    document.getElementById("output").innerText = "JS Error: " + err.message;
+    console.error(err);
   }
-}
-
-function copyLetter() {
-  const text = document.getElementById("output").innerText;
-  navigator.clipboard.writeText(text);
-  alert("Letter copied to clipboard!");
-}
-
-function shareWhatsApp() {
-  const text = document.getElementById("output").innerText;
-  const url = "https://wa.me/?text=" + encodeURIComponent(text);
-  window.open(url, "_blank");
 }
 </script>
 

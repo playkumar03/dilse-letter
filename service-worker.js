@@ -1,4 +1,4 @@
-const CACHE_NAME = "dilse-v1";
+const CACHE_NAME = "dilse-v2";
 const urlsToCache = [
   "/",
   "/index.html",

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>DilSe Letter ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff0f5;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #e91e63;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .secondary-btn {
+      background: #4CAF50;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff8fc;
+      border-radius: 10px;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>DilSe Letter ❤️</h1>
+  <p>Updated Version Live Test</p>
+
+  <input type="text" id="name" placeholder="Your partner's name">
+  <input type="text" id="mood" placeholder="Mood (Romantic, Cute, Emotional)">
+  <textarea id="memory" placeholder="Special memory (optional)"></textarea>
+
+  <button onclick="generateLetter()">Generate Letter 💌</button>
+
+  <div id="output"></div>
+
+  <button class="secondary-btn" onclick="copyLetter()">Copy Letter 📋</button>
+  <button class="secondary-btn" onclick="shareWhatsApp()">Share on WhatsApp 📲</button>
+
+  <div class="footer">
+    Made with ❤️ in India
+  </div>
+</div>
+
+<script>
+
+async function generateLetter() {
+  const name = document.getElementById("name").value;
+  const mood = document.getElementById("mood").value;
+  const memory = document.getElementById("memory").value;
+
+  document.getElementById("output").innerText = "Generating your DilSe letter... ❤️";
+
+  const response = await fetch("/.netlify/functions/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name, mood, memory })
+  });
+
+  const data = await response.json();
+
+  if (data.letter) {
+    document.getElementById("output").innerText = data.letter;
+  } else {
+    document.getElementById("output").innerText = "Error generating letter.";
+  }
+}
+
+function copyLetter() {
+  const text = document.getElementById("output").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Letter copied to clipboard!");
+}
+
+function shareWhatsApp() {
+  const text = document.getElementById("output").innerText;
+  const url = "https://wa.me/?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
